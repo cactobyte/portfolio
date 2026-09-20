@@ -13,7 +13,7 @@ export default function Projects() {
       <div className="project">
         <div className="project-top">
           <span className="project-name">OneInbox</span>
-          <span className="project-status"><span className="status-dot" />in progress</span>
+          <span className="project-status"><span className="status-dot status-dot-live" />in progress</span>
         </div>
         <p className="project-desc">Omnichannel customer messaging platform for SMEs.</p>
         <div className="project-tags">

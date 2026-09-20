@@ -52,6 +52,7 @@ nav {
 .wordmark .cursor { font-weight: 500; }
 
 .nav-links {
+  position: relative;
   display: flex;
   gap: 1.8rem;
   list-style: none;
@@ -64,14 +65,27 @@ nav {
   color: var(--muted);
   padding-bottom: 0.25rem;
   border-bottom: 1px solid transparent;
-  transition: color 0.15s ease, border-color 0.15s ease;
+  transition: color 0.15s ease;
 }
 
 .nav-links a:hover { color: var(--text); }
 
-.nav-links a.active {
-  color: var(--accent);
-  border-bottom-color: var(--accent);
+.nav-links a.active { color: var(--accent); }
+
+.nav-indicator {
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 1px;
+  height: 1px;
+  background: var(--accent);
+  transform-origin: left center;
+  transition: transform 250ms cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-indicator { transition: none; }
 }
 
 /* ---------- Social icons (used on home hero) ---------- */
@@ -141,11 +155,12 @@ footer {
 .home-name {
   font-family: var(--mono);
   font-weight: 600;
-  font-size: clamp(2rem, 6vw, 3rem);
+  font-size: clamp(1.3rem, 5vw, 3rem);
   letter-spacing: -0.01em;
   display: inline-flex;
   align-items: baseline;
   gap: 0.15em;
+  max-width: 100%;
 }
 
 .cursor {
@@ -162,6 +177,23 @@ footer {
 @keyframes blink {
   0%, 49% { opacity: 1; }
   50%, 100% { opacity: 0; }
+}
+
+.typewriter {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  vertical-align: bottom;
+  width: 20ch;
+  animation: typing 900ms steps(20, end) 150ms both;
+}
+
+@keyframes typing {
+  from { width: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .typewriter { animation: none; width: 20ch; }
 }
 
 .home-role {
@@ -282,6 +314,19 @@ footer {
   vertical-align: 1px;
 }
 
+.status-dot-live {
+  animation: dot-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes dot-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .status-dot-live { animation: none; }
+}
+
 .project-desc {
   color: var(--muted);
   max-width: 62ch;
@@ -345,6 +390,8 @@ footer {
   flex-wrap: wrap;
   gap: 0.5rem;
 }
+
+.about-list + .about-list { margin-top: 0.5rem; }
 
 .about-list li {
   font-family: var(--mono);

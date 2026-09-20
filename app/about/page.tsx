@@ -41,6 +41,8 @@ export default function About() {
             <li>Python</li>
             <li>JavaScript</li>
             <li>TypeScript</li>
+          </ul>
+          <ul className="about-list">
             <li>C#</li>
             <li>Java</li>
             <li>C++</li>

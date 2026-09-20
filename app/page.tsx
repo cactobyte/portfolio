@@ -2,7 +2,8 @@ export default function Home() {
   return (
     <section id="home" className="home-hero">
       <div className="home-name">
-        Hi, I&apos;m Boris Cheung<span className="cursor">_</span>
+        <span className="typewriter">Hi, I&apos;m Boris Cheung</span>
+        <span className="cursor">_</span>
       </div>
       <div className="home-role">Graduate Software Engineer</div>
       <p className="home-blurb">
@@ -15,7 +16,7 @@ export default function Home() {
         >
           OneInbox
         </a>
-        , now building an AI powered booking manager for Tattoo Artists (Comissioned).
+        , now building an AI powered bookings manager.
       </p>
 
       <div className="home-socials social-icons">

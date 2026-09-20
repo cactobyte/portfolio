@@ -12,13 +12,12 @@ export default function Dissertation() {
       <p className="page-sub">Dissertation project — University of Exeter, First Class.</p>
 
       <div className="about-block">
-        {/* TODO: replace this filler with the real writeup of the dissertation */}
         <p className="about-text">
           This project investigates how large language models can be integrated into
           game systems beyond dialogue generation alone. Existing AI native games
           often use LLMs for storytelling, conversational play, or isolated
           language-driven mechanics, leaving a gap between narrative interaction and
-          struc-tured gameplay execution. To address this, the project developed a
+          structured gameplay execution. To address this, the project developed a
           small 2D AI native role-playing game prototype in Unity, where players
           interact with LLM-driven non-player characters using natural language. The
           system uses Gemini through an API, with prompt constraints and structured
@@ -28,8 +27,8 @@ export default function Dissertation() {
           main quest loop without directly controlling game state.
         </p>
         <p className="about-text">
-          More on the architecture, the memory system, and how the quest generation
-          pipeline works is coming soon.
+          The full write-up — architecture, the memory system, and how the quest
+          generation pipeline works — is still in progress. Check back soon.
         </p>
       </div>
 
