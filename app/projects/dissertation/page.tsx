@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ArrowIcon } from "../../icon-arrow";
 
 export const metadata: Metadata = {
   title: "LLM-Driven RPG Game — Boris",
@@ -40,7 +41,7 @@ export default function Dissertation() {
 
       <p style={{ marginTop: "2.4rem" }}>
         <a href="/projects" className="project-link">
-          ← Back to projects
+          <ArrowIcon direction="left" /> Back to projects
         </a>
       </p>
     </section>

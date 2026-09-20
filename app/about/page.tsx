@@ -34,17 +34,27 @@ export default function About() {
 
       <div className="about-block">
         <div className="about-label">stack</div>
-        <ul className="about-list">
-          <li>Python</li>
-          <li>JavaScript</li>
-          <li>TypeScript</li>
-          <li>C#</li>
-          <li>Java</li>
-          <li>C++</li>
-          <li>React</li>
-          <li>Node.js</li>
-          <li>Flask</li>
-        </ul>
+
+        <div className="stack-group">
+          <div className="stack-group-label">languages</div>
+          <ul className="about-list">
+            <li>Python</li>
+            <li>JavaScript</li>
+            <li>TypeScript</li>
+            <li>C#</li>
+            <li>Java</li>
+            <li>C++</li>
+          </ul>
+        </div>
+
+        <div className="stack-group">
+          <div className="stack-group-label">frameworks &amp; tools</div>
+          <ul className="about-list">
+            <li>React</li>
+            <li>Node.js</li>
+            <li>Flask</li>
+          </ul>
+        </div>
       </div>
     </section>
   );

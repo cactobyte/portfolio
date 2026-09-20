@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ArrowIcon } from "../icon-arrow";
 
 export const metadata: Metadata = {
   title: "Projects — Boris",
@@ -12,7 +13,7 @@ export default function Projects() {
       <div className="project">
         <div className="project-top">
           <span className="project-name">OneInbox</span>
-          <span className="project-status">in progress</span>
+          <span className="project-status"><span className="status-dot" />in progress</span>
         </div>
         <p className="project-desc">Omnichannel customer messaging platform for SMEs.</p>
         <div className="project-tags">
@@ -24,14 +25,14 @@ export default function Projects() {
           rel="noopener"
           className="project-link"
         >
-          View project →
+          View project <ArrowIcon />
         </a>
       </div>
 
       <div className="project">
         <div className="project-top">
           <span className="project-name">LLM-Driven RPG Game</span>
-          <span className="project-status">dissertation — first</span>
+          <span className="project-status"><span className="status-dot" />dissertation — first</span>
         </div>
         <p className="project-desc">
           Unity RPG where NPCs are powered by an LLM: they remember past
@@ -43,14 +44,14 @@ export default function Projects() {
           <span className="tag">Gemini API</span>
         </div>
         <a href="/projects/dissertation" className="project-link">
-          Read more →
+          Read more <ArrowIcon />
         </a>
       </div>
 
       <div className="project">
         <div className="project-top">
           <span className="project-name">FanClub</span>
-          <span className="project-status">shipped</span>
+          <span className="project-status"><span className="status-dot" />shipped</span>
         </div>
         <p className="project-desc">
           MVP web app for a friend&apos;s startup, built and used to pitch investors.
@@ -65,7 +66,7 @@ export default function Projects() {
           rel="noopener"
           className="project-link"
         >
-          View project →
+          View project <ArrowIcon />
         </a>
       </div>
     </section>

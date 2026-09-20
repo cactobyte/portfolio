@@ -14,6 +14,9 @@ export default function Nav() {
 
   return (
     <nav>
+      <Link href="/" className="wordmark">
+        boris<span className="cursor">_</span>
+      </Link>
       <ul className="nav-links">
         {links.map(({ href, label }) => (
           <li key={href}>
