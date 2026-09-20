@@ -12,8 +12,24 @@ export default function Projects() {
 
       <div className="project">
         <div className="project-top">
-          <span className="project-name">OneInbox</span>
+          <span className="project-name">AI Bookings Manager</span>
           <span className="project-status"><span className="status-dot status-dot-live" />in progress</span>
+        </div>
+        <p className="project-desc">
+          Commissioned AI manager that handles bookings for tattoo artists and other creatives.
+        </p>
+        <div className="project-tags">
+          <span className="tag">TypeScript</span>
+          <span className="tag">Next.js</span>
+          <span className="tag">Postgres (Neon) via Drizzle</span>
+          <span className="tag">Vitest</span>
+        </div>
+      </div>
+
+      <div className="project">
+        <div className="project-top">
+          <span className="project-name">OneInbox</span>
+          <span className="project-status"><span className="status-dot" />shipped</span>
         </div>
         <p className="project-desc">Omnichannel customer messaging platform for SMEs.</p>
         <div className="project-tags">
@@ -68,6 +84,19 @@ export default function Projects() {
         >
           View project <ArrowIcon />
         </a>
+      </div>
+
+      <div className="project">
+        <div className="project-top">
+          <span className="project-name">OpenClaw - Orbis</span>
+          <span className="project-status"><span className="status-dot" />deprecated</span>
+        </div>
+        <p className="project-desc">
+          My own personal open-claw bot, run on a Mac mini. Currently deprecated.
+        </p>
+        <div className="project-tags">
+          <span className="tag">Personal</span>
+        </div>
       </div>
     </section>
   );
