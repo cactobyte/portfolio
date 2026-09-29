@@ -6,78 +6,13 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 import { signIn, signOut } from "@/auth";
 import { db, schema } from "@/lib/db";
-import {
-  clientStatuses,
-  contactChannels,
-  leadCategories,
-  leadStages,
-  paymentKinds,
-  websiteStates,
-} from "@/lib/db/schema";
 import { hkToday } from "@/lib/me/dates";
 import { standardPricing } from "@/lib/me/pricing";
 import { requireOwner } from "@/lib/me/owner";
+import { clientInput, leadInput, paymentInput } from "@/lib/me/validation";
 
 const { leads, clients, payments } = schema;
-
-// Empty form fields arrive as "", which should be stored as null.
-const optionalText = z
-  .string()
-  .trim()
-  .transform((v) => (v === "" ? null : v))
-  .nullable()
-  .default(null);
-const optionalDate = z
-  .string()
-  .trim()
-  .transform((v) => (v === "" ? null : v))
-  .pipe(z.iso.date().nullable())
-  .nullable()
-  .default(null);
-const optionalEnum = <T extends readonly [string, ...string[]]>(values: T) =>
-  z
-    .string()
-    .transform((v) => (v === "" ? null : v))
-    .pipe(z.enum(values).nullable())
-    .nullable()
-    .default(null);
-const money = z.coerce.number().int().min(0).max(10_000_000);
 const id = z.coerce.number().int().positive();
-
-const leadInput = z.object({
-  name: z.string().trim().min(1, "Name is required"),
-  nameZh: optionalText,
-  category: z.enum(leadCategories),
-  district: optionalText,
-  stage: z.enum(leadStages),
-  websiteState: z.enum(websiteStates),
-  websiteUrl: optionalText,
-  problem: optionalText,
-  channel: optionalEnum(contactChannels),
-  contact: optionalText,
-  demoSlug: optionalText,
-  sources: optionalText,
-  notes: optionalText,
-  contactedOn: optionalDate,
-  nextActionOn: optionalDate,
-});
-
-const clientInput = z.object({
-  name: z.string().trim().min(1, "Name is required"),
-  domain: optionalText,
-  status: z.enum(clientStatuses),
-  setupFee: money,
-  monthlyFee: money,
-  startedOn: optionalDate,
-  notes: optionalText,
-});
-
-const paymentInput = z.object({
-  kind: z.enum(paymentKinds),
-  amount: money.refine((n) => n > 0, "Amount must be more than zero"),
-  paidOn: z.iso.date(),
-  note: optionalText,
-});
 
 function fields(form: FormData) {
   return Object.fromEntries([...form.entries()].filter(([, v]) => typeof v === "string"));
