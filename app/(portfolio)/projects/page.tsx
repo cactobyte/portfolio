@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ArrowIcon } from "../icon-arrow";
+import { ArrowIcon } from "@/app/icon-arrow";
 
 export const metadata: Metadata = {
   title: "Projects — Boris",

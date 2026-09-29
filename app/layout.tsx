@@ -1,7 +1,4 @@
-import type { Metadata } from "next";
 import { IBM_Plex_Mono, Inter } from "next/font/google";
-import Nav from "./nav";
-import "./globals.css";
 
 const mono = IBM_Plex_Mono({
   variable: "--mono-font",
@@ -15,18 +12,11 @@ const sans = Inter({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "Boris — Software Engineer",
-};
-
+// Bare document shell. Each section of the app (portfolio, client sites) brings its own chrome and styles.
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${mono.variable} ${sans.variable}`}>
-      <body>
-        <Nav />
-        <main>{children}</main>
-        <footer>© 2026 Boris — cactobyte.tech</footer>
-      </body>
+      <body>{children}</body>
     </html>
   );
 }
