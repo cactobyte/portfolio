@@ -44,3 +44,6 @@ CHANGES.md
 
 # impeccable design skill (local tool state)
 .impeccable/
+
+# local dev database
+/.pglite
