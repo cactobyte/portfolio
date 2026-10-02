@@ -1,0 +1,315 @@
+.root {
+  --v-bg: #07080a;
+  --v-surface: #111312;
+  --v-border: #1e211f;
+  --v-text: #f3f2ee;
+  --v-muted: #8d918a;
+  --v-ok: #8caf7c;
+  --v-warn: #e0b354;
+  --v-over: #ff6b57;
+  --v-zone: var(--v-ok);
+
+  flex: 1;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  min-height: 100dvh;
+  padding: max(1rem, env(safe-area-inset-top)) 16px max(1.5rem, env(safe-area-inset-bottom));
+  background: var(--v-bg);
+  color: var(--v-text);
+  font-family: var(--sans);
+  transition: background-color 0.4s ease;
+}
+
+.root[data-zone="warn"] {
+  --v-zone: var(--v-warn);
+  background: #120f07;
+}
+
+.root[data-zone="over"] {
+  --v-zone: var(--v-over);
+  background: #3a0d0a;
+}
+
+.root[data-zone="over"]::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  box-shadow: inset 0 0 0 6px var(--v-over), inset 0 0 120px rgba(255, 60, 40, 0.45);
+  animation: pulse 1s ease-in-out infinite alternate;
+}
+
+@keyframes pulse {
+  from { opacity: 0.55; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .root { transition: none; }
+  .root[data-zone="over"]::before { animation: none; }
+}
+
+/* ---------- Intro ---------- */
+.intro {
+  align-self: center;
+  max-width: 26rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--v-muted);
+}
+
+.introTitle {
+  font-family: var(--mono);
+  font-size: clamp(2rem, 9vw, 2.75rem);
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.introText { color: var(--v-muted); }
+
+.startButton {
+  margin-top: 0.5rem;
+  padding: 1rem 1.5rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--v-ok);
+  color: #07080a;
+  font: 600 1rem var(--mono);
+  cursor: pointer;
+}
+.startButton:disabled { opacity: 0.6; cursor: progress; }
+
+.error {
+  padding: 0.75rem 1rem;
+  border: 1px solid rgba(255, 107, 87, 0.4);
+  border-radius: 10px;
+  background: rgba(255, 107, 87, 0.08);
+  color: #ffb3a8;
+  font-size: 0.9rem;
+}
+
+.fineprint { font-size: 0.8rem; color: var(--v-muted); }
+
+/* ---------- App ---------- */
+.app {
+  position: relative;
+  width: 100%;
+  max-width: 40rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.topBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ghostButton {
+  padding: 0.45rem 0.9rem;
+  border: 1px solid var(--v-border);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--v-text);
+  font: 500 0.85rem var(--mono);
+  cursor: pointer;
+}
+.ghostButton:hover { border-color: var(--v-muted); }
+
+.readout {
+  padding: clamp(1.5rem, 6vh, 3.5rem) 0 1.5rem;
+  text-align: center;
+}
+
+.number {
+  font-family: var(--mono);
+  font-weight: 600;
+  font-size: clamp(5.5rem, 30vw, 11rem);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: var(--v-zone);
+  transition: color 0.3s ease;
+}
+
+.unit {
+  margin-left: 0.15em;
+  font-size: 0.22em;
+  font-weight: 500;
+  color: var(--v-muted);
+}
+
+.status {
+  margin-top: 0.75rem;
+  font-family: var(--mono);
+  font-size: clamp(1.1rem, 4.5vw, 1.4rem);
+  font-weight: 600;
+  color: var(--v-zone);
+}
+
+.sub {
+  margin-top: 0.25rem;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  color: var(--v-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Bar meter ---------- */
+.meter {
+  position: relative;
+  height: 2.75rem;
+  border: 1px solid var(--v-border);
+  border-radius: 12px;
+  background: var(--v-surface);
+  overflow: hidden;
+}
+
+.meterFill {
+  position: absolute;
+  inset: 0;
+  background: var(--v-zone);
+  transform-origin: left;
+  transition: transform 80ms linear, background-color 0.3s ease;
+}
+
+.meterPeak {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  margin-left: -1px;
+  background: var(--v-text);
+  opacity: 0.7;
+}
+
+.meterLimit {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  margin-left: -1.5px;
+  background: var(--v-text);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
+}
+.meterLimit span {
+  position: absolute;
+  top: 50%;
+  left: 6px;
+  transform: translateY(-50%);
+  padding: 0.05rem 0.3rem;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.6);
+  font: 600 0.7rem var(--mono);
+  color: var(--v-text);
+}
+
+.scale {
+  position: relative;
+  height: 1.25rem;
+  margin: 0.3rem 0 1.25rem;
+  font: 0.65rem var(--mono);
+  color: var(--v-muted);
+}
+.scale span { position: absolute; transform: translateX(-50%); }
+.scale span:first-child { transform: none; }
+.scale span:last-child { transform: translateX(-100%); }
+
+/* ---------- History ---------- */
+.history {
+  display: block;
+  width: 100%;
+  height: 7rem;
+  border: 1px solid var(--v-border);
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  margin: 0.75rem 0 1.5rem;
+}
+.stats div {
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--v-border);
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.25);
+}
+.stats dt { font-size: 0.72rem; color: var(--v-muted); }
+.stats dd {
+  font: 600 1.15rem var(--mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Settings ---------- */
+.settings {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--v-border);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.fieldHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 0.9rem;
+}
+.fieldHead output { font: 600 0.9rem var(--mono); }
+
+.field input[type="range"] {
+  width: 100%;
+  accent-color: var(--v-ok);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.chip {
+  padding: 0.4rem 0.8rem;
+  border: 1px solid var(--v-border);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--v-muted);
+  font: 500 0.8rem var(--mono);
+  cursor: pointer;
+}
+.chip[aria-pressed="true"] {
+  border-color: var(--v-ok);
+  background: rgba(140, 175, 124, 0.12);
+  color: var(--v-text);
+}
+
+.hint { font-size: 0.8rem; color: var(--v-muted); }
+
+.calibration {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.calibration summary {
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+.calibration[open] summary { margin-bottom: 0.75rem; }
+.calibration .ghostButton { align-self: flex-start; margin-top: 0.75rem; }
