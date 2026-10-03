@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useWakeLock } from "../use-wake-lock";
 import { LevelMeter, type Weighting } from "./level-meter";
 import styles from "./volume.module.css";
 
@@ -141,6 +142,8 @@ export default function VolumeMeter() {
   // Release the mic if the page is left while running.
   useEffect(() => () => meterRef.current?.stop(), []);
 
+  useWakeLock(status.kind === "running");
+
   // Measurement loop.
   useEffect(() => {
     if (status.kind !== "running") return;
@@ -202,26 +205,15 @@ export default function VolumeMeter() {
     };
     frame = requestAnimationFrame(tick);
 
-    // Keep the screen on and the audio running when the phone is left on the table.
-    let wakeLock: WakeLockSentinel | null = null;
-    const requestWakeLock = () => {
-      navigator.wakeLock
-        ?.request("screen")
-        .then((lock) => (wakeLock = lock))
-        .catch(() => {});
-    };
+    // iOS suspends audio while the page is in the background.
     const onVisibility = () => {
-      if (document.visibilityState !== "visible") return;
-      meter.resume();
-      requestWakeLock();
+      if (document.visibilityState === "visible") meter.resume();
     };
-    requestWakeLock();
     document.addEventListener("visibilitychange", onVisibility);
 
     return () => {
       cancelAnimationFrame(frame);
       document.removeEventListener("visibilitychange", onVisibility);
-      void wakeLock?.release();
     };
   }, [status.kind]);
 
