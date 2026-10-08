@@ -1,27 +1,27 @@
 import type { Metadata } from "next";
-import { IBM_Plex_Mono, Inter } from "next/font/google";
+import { Funnel_Display, Funnel_Sans } from "next/font/google";
+import { ThemeProvider } from "@/src/components/theme";
+import { site, themeCss } from "@/src/config/site";
 import "./globals.css";
 
-const mono = IBM_Plex_Mono({
-  variable: "--mono-font",
-  weight: ["400", "500", "600"],
-  subsets: ["latin"],
-});
-
-const sans = Inter({
-  variable: "--sans-font",
-  weight: ["400", "500"],
-  subsets: ["latin"],
-});
+const display = Funnel_Display({ variable: "--font-funnel-display", subsets: ["latin"] });
+const sans = Funnel_Sans({ variable: "--font-funnel-sans", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Boris — Software Engineer",
+  title: { default: "Boris Cheung", template: "%s – Boris Cheung" },
+  description:
+    "Boris Cheung, software engineer. I build full-stack products and AI tools, and take on freelance work.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${mono.variable} ${sans.variable}`}>
-      <body>{children}</body>
+    <html lang="en" data-theme={site.theme.default} className={`${display.variable} ${sans.variable}`}>
+      <head>
+        <style dangerouslySetInnerHTML={{ __html: themeCss() }} />
+      </head>
+      <body className="flex min-h-svh flex-col">
+        <ThemeProvider>{children}</ThemeProvider>
+      </body>
     </html>
   );
 }

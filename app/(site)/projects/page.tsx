@@ -1,103 +1,17 @@
 import type { Metadata } from "next";
-import { ArrowIcon } from "@/app/icon-arrow";
+import { ProjectList } from "@/src/components/project-list";
 
 export const metadata: Metadata = {
-  title: "Projects — Boris",
+  title: "Projects",
 };
 
 export default function Projects() {
   return (
-    <section id="projects">
-      <h1 className="page-heading">Projects</h1>
-
-      <div className="project">
-        <div className="project-top">
-          <span className="project-name">AI Bookings Manager</span>
-          <span className="project-status"><span className="status-dot status-dot-live" />in progress</span>
-        </div>
-        <p className="project-desc">
-          Commissioned AI manager that handles bookings for tattoo artists and other creatives.
-        </p>
-        <div className="project-tags">
-          <span className="tag">TypeScript</span>
-          <span className="tag">Next.js</span>
-          <span className="tag">Postgres (Neon) via Drizzle</span>
-          <span className="tag">Vitest</span>
-        </div>
-      </div>
-
-      <div className="project">
-        <div className="project-top">
-          <span className="project-name">OneInbox</span>
-          <span className="project-status"><span className="status-dot" />shipped</span>
-        </div>
-        <p className="project-desc">Omnichannel customer messaging platform for SMEs.</p>
-        <div className="project-tags">
-          <span className="tag">Full-stack</span>
-        </div>
-        <a
-          href="https://github.com/cactobyte/one-inbox"
-          target="_blank"
-          rel="noopener"
-          className="project-link"
-        >
-          View project <ArrowIcon />
-        </a>
-      </div>
-
-      <div className="project">
-        <div className="project-top">
-          <span className="project-name">LLM-Driven RPG Game</span>
-          <span className="project-status"><span className="status-dot" />dissertation — first</span>
-        </div>
-        <p className="project-desc">
-          Unity RPG where NPCs are powered by an LLM: they remember past
-          conversations and generate dynamic quests instead of following a fixed list.
-        </p>
-        <div className="project-tags">
-          <span className="tag">Unity</span>
-          <span className="tag">C#</span>
-          <span className="tag">Gemini API</span>
-        </div>
-        <a href="/projects/dissertation" className="project-link">
-          Read more <ArrowIcon />
-        </a>
-      </div>
-
-      <div className="project">
-        <div className="project-top">
-          <span className="project-name">FanClub</span>
-          <span className="project-status"><span className="status-dot" />shipped</span>
-        </div>
-        <p className="project-desc">
-          MVP web app for a friend&apos;s startup, built and used to pitch investors.
-        </p>
-        <div className="project-tags">
-          <span className="tag">React</span>
-          <span className="tag">Freelance</span>
-        </div>
-        <a
-          href="https://github.com/cactobyte/fanclub"
-          target="_blank"
-          rel="noopener"
-          className="project-link"
-        >
-          View project <ArrowIcon />
-        </a>
-      </div>
-
-      <div className="project">
-        <div className="project-top">
-          <span className="project-name">OpenClaw - Orbis</span>
-          <span className="project-status"><span className="status-dot" />deprecated</span>
-        </div>
-        <p className="project-desc">
-          My own personal open-claw bot, run on a Mac mini. Currently deprecated.
-        </p>
-        <div className="project-tags">
-          <span className="tag">Personal</span>
-        </div>
-      </div>
+    <section id="projects" className="mx-auto w-full max-w-6xl px-5 pt-32 pb-16 sm:px-10 sm:pt-40">
+      <h1 className="rise mb-10 font-display text-[clamp(3rem,8vw,5.5rem)] leading-none font-semibold tracking-tight">
+        Projects
+      </h1>
+      <ProjectList />
     </section>
   );
 }

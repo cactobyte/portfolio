@@ -8,6 +8,8 @@
   --v-warn: #e0b354;
   --v-over: #ff6b57;
   --v-zone: var(--v-ok);
+  --sans: var(--sans-font), system-ui, sans-serif;
+  --mono: var(--mono-font), ui-monospace, monospace;
 
   flex: 1;
   position: relative;

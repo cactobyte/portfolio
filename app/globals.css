@@ -1,418 +1,228 @@
+@import "tailwindcss";
+
+/* Theme colours (--bg, --ink, --accent, --warm, --lamp, --screen) are generated
+   from src/config/site.ts in app/layout.tsx. Everything here derives from them. */
 :root {
-  --bg: #07080a;
-  --bg-alt: #111312;
-  --border: #1e211f;
-  --text: #f3f2ee;
-  --muted: #8d918a;
-  --accent: #8caf7c;
-  --accent-dim: #4f6446;
-  --sand: #cfa96a;
-  --mono: var(--mono-font), ui-monospace, monospace;
-  --sans: var(--sans-font), system-ui, sans-serif;
+  --muted: color-mix(in oklab, var(--ink) 66%, var(--bg));
+  --line: color-mix(in oklab, var(--ink) 15%, var(--bg));
+  --surface: color-mix(in oklab, var(--ink) 6%, var(--bg));
+  --screen-surface: color-mix(in oklab, var(--screen) 18%, var(--bg));
+  /* Confident deceleration for things arriving. */
+  --ease-arrive: cubic-bezier(0.16, 1, 0.3, 1);
+  /* A small overshoot, for things that are picked up. */
+  --ease-spring: cubic-bezier(0.34, 1.5, 0.64, 1);
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+@theme inline {
+  --color-bg: var(--bg);
+  --color-ink: var(--ink);
+  --color-accent: var(--accent);
+  --color-warm: var(--warm);
+  --color-lamp: var(--lamp);
+  --color-screen: var(--screen);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-surface: var(--surface);
+  --color-screen-surface: var(--screen-surface);
 
-html, body { background: var(--bg); color: var(--text); }
-
-body {
-  font-family: var(--sans);
-  line-height: 1.6;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  background-image: radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.035) 1px, transparent 0);
-  background-size: 28px 28px;
+  --font-display: var(--font-funnel-display), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-funnel-sans), ui-sans-serif, system-ui, sans-serif;
 }
 
-a { color: inherit; }
+@layer base {
+  html {
+    background: var(--bg);
+    color: var(--ink);
+    color-scheme: light;
+    transition: background-color 0.6s ease, color 0.4s ease;
+  }
+  html[data-theme="night"] { color-scheme: dark; }
+  html { scrollbar-color: color-mix(in oklab, var(--ink) 28%, var(--bg)) var(--bg); }
 
-a:focus-visible, button:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 3px;
-  border-radius: 2px;
+  @media (prefers-reduced-motion: no-preference) {
+    html { scroll-behavior: smooth; }
+  }
+
+  body {
+    @apply font-sans text-lg leading-relaxed antialiased;
+  }
+
+  ::selection {
+    background: var(--accent);
+    color: #1e1f1c;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
 }
 
-/* ---------- Nav ---------- */
-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1.5rem clamp(1.5rem, 6vw, 4rem);
-  background: var(--bg);
+@layer components {
+  /* Buttons and icon links: colour changes plus a small press so a tap visibly registers.
+     Use instead of Tailwind transition utilities, which would drop `scale` from the list. */
+  .press {
+    transition-property: color, background-color, border-color, opacity, filter, scale, translate, box-shadow;
+    transition-duration: 220ms;
+    transition-timing-function: var(--ease-arrive);
+  }
+  .press:active {
+    scale: 0.96;
+    translate: none;
+    transition-duration: 80ms;
+  }
+
+  /* Buttons rise a little toward the cursor; an icon inside moves the way the button goes. */
+  .btn-lift:hover {
+    translate: 0 -2px;
+    box-shadow: 0 10px 20px -12px color-mix(in oklab, var(--ink) 60%, transparent);
+  }
+
+  .btn-lift:hover .btn-dip { animation: dip 520ms var(--ease-arrive); }
+  .btn-lift:hover .btn-nudge { animation: nudge 520ms var(--ease-arrive); }
+  /* Starts faint, not invisible: the text is painted (and counts for LCP) from the first frame. */
+  @keyframes rise {
+    from { opacity: 0.3; transform: translateY(18px); }
+  }
+  /* A clay letter dropped onto the page: falls a little stretched, squashes on landing, settles. */
+  @keyframes settle {
+    0% { transform: translateY(-0.3em) scale(0.95, 1.08); }
+    55% { transform: scale(1.05, 0.93); }
+  }
+  @keyframes fade-in {
+    from { opacity: 0.3; }
+  }
+  @keyframes dip {
+    40% { translate: 0 2.5px; }
+  }
+  @keyframes nudge {
+    40% { translate: 3px 0; }
+  }
+
+  /* Icon buttons: the icon leans in. */
+  .icon-pop > svg { transition: rotate 300ms var(--ease-arrive), scale 300ms var(--ease-arrive); }
+  .icon-pop:hover > svg { rotate: -8deg; scale: 1.12; }
+
+  /* Nav links: an accent underline draws in from the left; the current page keeps it. */
+  .nav-link {
+    background: linear-gradient(var(--accent), var(--accent)) no-repeat 0 100% / 0% 2px;
+    background-origin: content-box;
+    transition: background-size 320ms var(--ease-arrive), color 150ms ease-out;
+  }
+  .nav-link:hover, .nav-link[aria-current="page"] { background-size: 100% 2px; }
+
+  /* Hero name, letter by letter (set --i). */
+  .letter {
+    display: inline-block;
+    transform-origin: 50% 90%;
+    animation: settle 640ms var(--ease-arrive) backwards;
+    animation-delay: calc(80ms + var(--i, 0) * 45ms);
+    transition: translate 380ms var(--ease-spring);
+  }
+  @media (hover: hover) {
+    .letter:hover { translate: 0 -0.08em; }
+  }
+
+  /* Project cards with a link: the card rises like the buttons and its picture leans in. */
+  .card-lift { transition: translate 220ms var(--ease-arrive), box-shadow 220ms var(--ease-arrive); }
+  .card-lift:hover {
+    translate: 0 -3px;
+    box-shadow: 0 16px 28px -18px color-mix(in oklab, var(--ink) 55%, transparent);
+  }
+  .card-media { transition: scale 600ms var(--ease-arrive); }
+  .card-lift:hover .card-media { scale: 1.04; }
+
+  /* Page entrance: blocks rise into place in reading order (set --i on each). */
+  .rise {
+    /* backwards, not both: once arrived, hover transitions own translate again. */
+    animation: rise 700ms var(--ease-arrive) backwards;
+    animation-delay: calc(var(--i, 0) * 80ms);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .press:active { scale: none; }
+    .rise { animation-name: fade-in; }
+    .letter { animation: none; }
+    .letter:hover { translate: none; }
+    .card-lift:hover { translate: none; }
+    .card-lift:hover .card-media { scale: none; }
+    .btn-lift:hover { translate: none; }
+    .btn-lift:hover :is(.btn-dip, .btn-nudge) { animation: none; }
+    .icon-pop:hover > svg { rotate: none; scale: none; }
+    .nav-link { transition-property: color; }
+  }
+
+  /* Padded to a 44px tap target without moving the layout. */
+  .project-link {
+    @apply -my-2 inline-flex w-fit items-center py-2 font-semibold underline decoration-accent decoration-2 underline-offset-[6px] transition-colors;
+  }
+  .project-link:hover { text-decoration-thickness: 3px; }
 }
 
-.wordmark {
-  font-family: var(--mono);
-  font-weight: 600;
-  font-size: 0.95rem;
-  text-decoration: none;
-  color: var(--text);
-}
-.wordmark .cursor { font-weight: 500; }
-
-.nav-links {
-  position: relative;
-  display: flex;
-  gap: 1.8rem;
-  list-style: none;
-  font-family: var(--sans);
-  font-size: 0.9rem;
-}
-
-.nav-links a {
-  text-decoration: none;
-  color: var(--muted);
-  padding-bottom: 0.25rem;
-  border-bottom: 1px solid transparent;
-  transition: color 0.15s ease;
-}
-
-.nav-links a:hover { color: var(--text); }
-
-.nav-links a.active { color: var(--accent); }
-
-.nav-indicator {
+/* Hero poster, placed where the camera frames the desk (camera-rig.tsx). Sized in
+   container units of the hero's sticky frame (which is the canvas's size), so the
+   page scrollbar can't skew it. Three regimes, matching the camera:
+   - landscape at 7:4 or wider: scene scales with height, subject 17% right of centre
+     (landscape poster rendered at 1750×1000, subject centre x = 1172.5px);
+   - landscape narrower than 7:4: camera pulls back, scene scales with width, subject
+     vertically centred;
+   - portrait (≤ 11:10): scene scales with width, subject 16% below centre
+     (portrait poster rendered at 390×844, subject centre y = 557px). */
+.desk-poster {
   position: absolute;
-  left: 0;
-  bottom: -1px;
-  width: 1px;
-  height: 1px;
-  background: var(--accent);
-  transform-origin: left center;
-  transition: transform 250ms cubic-bezier(0.16, 1, 0.3, 1);
-  pointer-events: none;
+  top: 0;
+  left: calc(67cqw - 117.25cqh);
+  width: auto;
+  max-width: none;
+  height: 100%;
+}
+@container (max-aspect-ratio: 7/4) {
+  .desk-poster {
+    top: calc(50cqh - 28.5714cqw);
+    left: 0;
+    width: 100%;
+    height: auto;
+  }
+}
+@container (max-aspect-ratio: 11/10) {
+  .desk-poster {
+    top: calc(66cqh - 142.8cqw);
+  }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .nav-indicator { transition: none; }
-}
-
-/* ---------- Social icons (used on home hero) ---------- */
-.social-icons {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1.3rem;
-}
-
-.social-icons a {
-  display: inline-flex;
-  color: var(--muted);
-  transition: color 0.15s ease;
-}
-
-.social-icons a:hover { color: var(--accent); }
-
-.social-icons svg {
-  width: 20px;
-  height: 20px;
-  fill: currentColor;
-}
-
-/* ---------- Layout shell ---------- */
-main {
-  flex: 1;
-  width: 100%;
-  max-width: 860px;
-  margin: 0 auto;
-  padding: clamp(3rem, 8vh, 6rem) clamp(1.5rem, 6vw, 2rem) 4rem;
-}
-
-footer {
-  padding: 1.5rem clamp(1.5rem, 6vw, 4rem);
-  font-family: var(--mono);
-  font-size: 0.75rem;
-  color: var(--muted);
-  text-align: center;
-}
-
-/* ---------- Arrow icon (used in link affordances) ---------- */
 .arrow-icon {
   width: 14px;
   height: 14px;
-  vertical-align: -2px;
   margin-left: 0.4em;
-  transition: transform 0.15s ease;
+  transition: transform 0.2s ease;
 }
 .arrow-icon-left { margin-left: 0; margin-right: 0.4em; }
-
 .project-link:hover .arrow-icon-right { transform: translateX(3px); }
 .project-link:hover .arrow-icon-left { transform: translateX(-3px); }
 
 @media (prefers-reduced-motion: reduce) {
-  .arrow-icon { transition: none; }
+  html, .arrow-icon { transition: none; }
 }
 
-/* ---------- Home ---------- */
-.home-hero {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
+/* Tech tags lift off the page like fridge magnets: a tip, a shadow, a warmer tint.
+   Unlayered so the tint beats the bg-surface utility on the tag. */
+.chip {
+  transition:
+    translate 280ms var(--ease-spring),
+    rotate 280ms var(--ease-spring),
+    box-shadow 280ms var(--ease-arrive),
+    background-color 200ms ease-out;
 }
-
-.home-name {
-  font-family: var(--mono);
-  font-weight: 600;
-  font-size: clamp(1.3rem, 5vw, 3rem);
-  letter-spacing: -0.01em;
-  display: inline-flex;
-  align-items: baseline;
-  gap: 0.15em;
-  max-width: 100%;
+@media (hover: hover) {
+  .chip:hover {
+    translate: 0 -3px;
+    rotate: -3deg;
+    background-color: color-mix(in oklab, var(--accent) 32%, var(--bg));
+    box-shadow: 0 8px 14px -8px color-mix(in oklab, var(--ink) 45%, transparent);
+  }
+  .chip:nth-child(even):hover { rotate: 3deg; }
 }
-
-.cursor {
-  display: inline-block;
-  width: 0.5ch;
-  color: var(--accent);
-  animation: blink 1.1s steps(1) infinite;
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .cursor { animation: none; opacity: 1; }
+  .chip:hover { translate: none; rotate: none; }
 }
-
-@keyframes blink {
-  0%, 49% { opacity: 1; }
-  50%, 100% { opacity: 0; }
-}
-
-.typewriter {
-  display: inline-block;
-  overflow: hidden;
-  white-space: nowrap;
-  vertical-align: bottom;
-  width: 20ch;
-  animation: typing 900ms steps(20, end) 150ms both;
-}
-
-@keyframes typing {
-  from { width: 0; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .typewriter { animation: none; width: 20ch; }
-}
-
-.home-role {
-  font-family: var(--sans);
-  font-weight: 500;
-  color: var(--accent);
-  font-size: 1rem;
-  margin-top: 0.9rem;
-}
-
-.home-blurb {
-  max-width: 46ch;
-  color: var(--muted);
-  font-size: 1.02rem;
-  margin-top: 1.3rem;
-}
-
-.inline-link {
-  color: var(--accent);
-  text-decoration: none;
-  border-bottom: 1px solid var(--accent-dim);
-}
-.inline-link:hover { border-color: var(--accent); }
-
-.home-socials {
-  margin-top: 1.8rem;
-}
-
-.home-actions {
-  margin-top: 2.2rem;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.9rem;
-}
-
-.btn {
-  font-family: var(--mono);
-  font-size: 0.85rem;
-  padding: 0.75rem 1.3rem;
-  text-decoration: none;
-  display: inline-block;
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
-}
-
-.btn-primary {
-  background: var(--accent);
-  color: #07080a;
-  border-color: var(--accent);
-}
-.btn-primary:hover { background: var(--sand); border-color: var(--sand); }
-
-.btn-secondary {
-  color: var(--text);
-  border-color: var(--border);
-}
-.btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
-
-/* ---------- Projects ---------- */
-.page-heading {
-  font-family: var(--mono);
-  font-size: 1.6rem;
-  font-weight: 600;
-  margin-bottom: 0.6rem;
-}
-
-.page-sub {
-  color: var(--muted);
-  max-width: 50ch;
-  margin-bottom: 2.6rem;
-}
-
-.project {
-  background: var(--bg-alt);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 1.6rem 1.8rem;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 0.6rem;
-  transition: border-color 0.15s ease;
-}
-
-.project + .project { margin-top: 1rem; }
-
-.project:hover { border-color: var(--accent-dim); }
-
-.project-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 1rem;
-  flex-wrap: wrap;
-}
-
-.project-name {
-  font-family: var(--mono);
-  font-size: 1.15rem;
-  font-weight: 600;
-}
-
-.project-status {
-  font-family: var(--mono);
-  font-size: 0.72rem;
-  color: var(--accent);
-  white-space: nowrap;
-}
-
-.status-dot {
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: currentColor;
-  margin-right: 0.5em;
-  vertical-align: 1px;
-}
-
-.status-dot-live {
-  animation: dot-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-@keyframes dot-pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.35; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .status-dot-live { animation: none; }
-}
-
-.project-desc {
-  color: var(--muted);
-  max-width: 62ch;
-}
-
-.project-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-top: 0.3rem;
-}
-
-.tag {
-  font-family: var(--mono);
-  font-size: 0.72rem;
-  color: var(--muted);
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  padding: 0.2rem 0.55rem;
-}
-
-.project-link {
-  font-family: var(--sans);
-  font-weight: 500;
-  font-size: 0.9rem;
-  text-decoration: none;
-  color: var(--text);
-  display: inline-flex;
-  align-items: center;
-  width: fit-content;
-  margin-top: 0.3rem;
-}
-.project-link:hover { color: var(--accent); }
-
-/* ---------- About ---------- */
-.about-block { margin-bottom: 2.2rem; }
-
-.about-label {
-  font-family: var(--sans);
-  font-weight: 500;
-  font-size: 0.85rem;
-  color: var(--accent);
-  margin-bottom: 0.6rem;
-}
-
-.about-text { color: var(--text); max-width: 62ch; }
-.about-text + .about-text { margin-top: 0.9rem; }
-
-.stack-group + .stack-group { margin-top: 1.2rem; }
-
-.stack-group-label {
-  font-family: var(--mono);
-  font-size: 0.72rem;
-  color: var(--muted);
-  margin-bottom: 0.6rem;
-}
-
-.about-list {
-  list-style: none;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.about-list + .about-list { margin-top: 0.5rem; }
-
-.about-list li {
-  font-family: var(--mono);
-  font-size: 0.8rem;
-  color: var(--text);
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  padding: 0.3rem 0.6rem;
-}
-
-.about-row {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  flex-wrap: wrap;
-  border-top: 1px solid var(--border);
-  padding: 1rem 0;
-}
-.about-row:last-child { border-bottom: 1px solid var(--border); }
-
-.about-row-main { display: flex; flex-direction: column; gap: 0.3rem; }
-.about-row-title { font-weight: 500; }
-.about-row-sub { font-family: var(--sans); font-size: 0.85rem; color: var(--muted); }
-.about-row-meta { font-family: var(--mono); font-size: 0.78rem; color: var(--muted); }
