@@ -30,8 +30,8 @@ const head: Variants = {
 /**
  * Hand-drawn note and arrow pointing at the "View projects" button. Positioned against
  * a `relative w-fit` wrapper around the button row (the button is last, at its right
- * edge): beside the row on wide screens, below it on narrower ones, and on phones,
- * where the buttons stack, below the button at the bottom left.
+ * edge): beside the row on wide screens, below it on tablets, and on phones, where the
+ * buttons stack, small and beside the bottom one.
  */
 export function ProjectsNudge() {
   const reduced = useReducedMotion();
@@ -61,9 +61,9 @@ export function ProjectsNudge() {
           <motion.path variants={head} {...pen} d="M23 87 L10 98 L25 105" />
         </svg>
       </div>
-      {/* Narrower screens: below, from the note up into the underside of the button (stacked under
-          Download CV on phones, beside it from sm, where its centre is ~90px in from the right). */}
-      <div className="absolute top-[calc(100%+8px)] left-[60px] h-[200px] w-[120px] sm:left-[calc(100%-111px)] lg:hidden">
+      {/* Tablets: below the row, from the note up into the underside of the button
+          (its centre is ~90px in from the row's right edge). */}
+      <div className="absolute top-[calc(100%+8px)] left-[calc(100%-111px)] hidden h-[200px] w-[120px] sm:block lg:hidden">
         <svg viewBox="0 0 120 150" className="absolute top-0 left-0 h-[150px] w-[120px]">
           <motion.path variants={stroke} {...pen} d="M100 140 C 70 142, 30 124, 28 84 S 22 32, 20 10" />
           <motion.path variants={head} {...pen} d="M11 22 L20 8 L31 21" />
@@ -71,6 +71,17 @@ export function ProjectsNudge() {
         <motion.p variants={note} className="absolute top-[150px] left-[50px] rotate-2 whitespace-nowrap">
           {NOTE}
         </motion.p>
+      </div>
+      {/* Phones (buttons stacked): a small note beside the bottom button, with a short arrow
+          curling into its side. Hidden on the narrowest phones, where it would not fit. */}
+      <div className="absolute bottom-[18px] left-[calc(100%+4px)] h-[98px] w-[138px] max-[359px]:hidden sm:hidden">
+        <motion.p variants={note} className="absolute top-0 right-0 -rotate-3 text-xl whitespace-nowrap">
+          {NOTE}
+        </motion.p>
+        <svg viewBox="0 0 70 44" className="absolute bottom-0 left-0 h-[44px] w-[70px]">
+          <motion.path variants={stroke} {...pen} d="M66 6 C 58 26, 36 36, 8 34" />
+          <motion.path variants={head} {...pen} d="M18 27 L7 34 L18 41" />
+        </svg>
       </div>
     </motion.div>
   );

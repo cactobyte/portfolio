@@ -6,7 +6,6 @@ import { getImageProps } from "next/image";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { site } from "@/src/config/site";
 import { hasWebGL, LOW_POWER, REDUCED_MOTION, useMediaQuery } from "@/src/lib/media";
-import { useDeviceTilt } from "@/src/lib/use-device-tilt";
 import posterLandscape from "@/src/assets/desk-poster-landscape.jpg";
 import posterPortrait from "@/src/assets/desk-poster-portrait.jpg";
 import { ProjectList } from "./project-list";
@@ -37,7 +36,6 @@ export function Hero() {
   const { scrollYProgress } = useScroll({ target: section, offset: ["start start", "end end"] });
   const reduced = useMediaQuery(REDUCED_MOTION);
   const lowPower = useMediaQuery(LOW_POWER);
-  const { tilt, status: tiltStatus, request: requestTilt } = useDeviceTilt(lowPower && !reduced);
   const { theme } = useTheme();
 
   const [support, setSupport] = useState<Support>("checking");
@@ -146,8 +144,7 @@ export function Hero() {
                 active={onScreen}
                 reduced={reduced}
                 lowPower={lowPower}
-                deviceTilt={tiltStatus === "on" ? tilt : null}
-                idleSway={lowPower && tiltStatus !== "on"}
+                idleSway={lowPower}
                 onFocusScreen={focusScreen}
                 onReady={() => setReady(true)}
                 topInset={navHeight}
@@ -181,48 +178,38 @@ export function Hero() {
             <p className="rise mt-4 text-lg sm:text-xl" style={at(5)}>
               Graduate Software Engineer
             </p>
-            <ul className="pointer-events-auto mt-6 flex flex-wrap gap-2" aria-label="Find me on">
-              {site.socials.map(({ name, href, icon }, i) => (
-                <li key={name} className="rise" style={at(6 + i * 0.5)}>
-                  <a
-                    href={href}
-                    {...(href.startsWith("mailto:")
-                      ? { onClick: () => copyEmail(href.slice("mailto:".length)) }
-                      : { target: "_blank", rel: "noopener" })}
-                    aria-label={name}
-                    title={href.startsWith("mailto:") ? href.slice("mailto:".length) : name}
-                    className="press icon-pop grid size-11 place-items-center rounded-full border border-line bg-bg/70 backdrop-blur-sm hover:border-ink hover:bg-surface"
-                  >
-                    <svg viewBox="0 0 24 24" className="size-5 fill-current" aria-hidden="true">
-                      <path d={icon} />
-                    </svg>
-                  </a>
-                </li>
-              ))}
-            </ul>
-            <p
-              role="status"
-              className={`mt-2 h-5 text-sm text-muted transition-opacity duration-300 ${copiedEmail ? "opacity-100" : "opacity-0"}`}
-            >
-              {copiedEmail && `Copied ${copiedEmail}`}
-            </p>
-            {tall && (
-              <p className="rise mt-8 hidden text-sm text-muted md:block" style={at(9)}>
-                Scroll to see what&apos;s on the screen
-              </p>
-            )}
-            {tiltStatus === "needs-permission" && (
-              <button
-                type="button"
-                onClick={requestTilt}
-                className="press btn-lift pointer-events-auto mt-6 rounded-full border border-line px-4 py-2.5 text-sm font-medium hover:border-ink"
+            {/* Fits its icons, so the copied note can sit just after them. */}
+            <div className="relative mt-6 w-fit">
+              <ul className="pointer-events-auto flex flex-wrap gap-2" aria-label="Find me on">
+                {site.socials.map(({ name, href, icon }, i) => (
+                  <li key={name} className="rise" style={at(6 + i * 0.5)}>
+                    <a
+                      href={href}
+                      {...(href.startsWith("mailto:")
+                        ? { onClick: () => copyEmail(href.slice("mailto:".length)) }
+                        : { target: "_blank", rel: "noopener" })}
+                      aria-label={name}
+                      title={href.startsWith("mailto:") ? href.slice("mailto:".length) : name}
+                      className="press icon-pop grid size-11 place-items-center rounded-full border border-line bg-bg/70 backdrop-blur-sm hover:border-ink hover:bg-surface"
+                    >
+                      <svg viewBox="0 0 24 24" className="size-5 fill-current" aria-hidden="true">
+                        <path d={icon} />
+                      </svg>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+              <p
+                role="status"
+                className={`absolute top-1/2 left-full ml-3 -translate-y-1/2 text-sm whitespace-nowrap text-muted transition-opacity duration-300 ${copiedEmail ? "opacity-100" : "opacity-0"}`}
               >
-                Tilt the desk with your phone
-              </button>
-            )}
-            {tiltStatus === "denied" && (
-              <p role="status" className="mt-6 max-w-[30ch] text-sm text-muted">
-                Motion access is blocked. Allow it in your browser settings to tilt the desk.
+                {copiedEmail && "Email copied"}
+              </p>
+            </div>
+            {tall && (
+              <p className="rise mt-3 text-sm text-muted md:mt-10" style={at(9)}>
+                <span className="md:hidden">Scroll down</span>
+                <span className="hidden md:inline">Scroll to see what&apos;s on the screen</span>
               </p>
             )}
           </motion.div>

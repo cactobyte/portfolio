@@ -7,7 +7,7 @@ import { Suspense, useRef, type RefObject } from "react";
 import type { Group } from "three";
 import { site } from "@/src/config/site";
 import { useTheme } from "../theme";
-import { CameraRig, type ProgressSource, type TiltSource } from "./camera-rig";
+import { CameraRig, type ProgressSource } from "./camera-rig";
 import { DeskObject } from "./desk-object";
 import { Lighting } from "./lighting";
 import { SceneStateContext, ScreenPortalContext, type SceneState } from "./scene-state";
@@ -19,7 +19,6 @@ export type SceneProps = {
   reduced: boolean;
   /** Phones: lower DPR, smaller shadows, no post-processing. */
   lowPower: boolean;
-  deviceTilt: TiltSource | null;
   idleSway: boolean;
   onFocusScreen: () => void;
   /** Fires after the first frame is drawn, to swap out the poster. */
@@ -35,7 +34,7 @@ const PIVOT: [number, number, number] = [0, 0.9, 0];
 
 /** The 3D desk hero. Loaded lazily; see components/hero.tsx. */
 export default function Scene(props: SceneProps) {
-  const { progress, active, reduced, lowPower, deviceTilt, idleSway, onFocusScreen, onReady, topInset, screenPortal } =
+  const { progress, active, reduced, lowPower, idleSway, onFocusScreen, onReady, topInset, screenPortal } =
     props;
   const { theme } = useTheme();
   const tiltGroupRef = useRef<Group>(null);
@@ -61,7 +60,6 @@ export default function Scene(props: SceneProps) {
           <CameraRig
             progress={progress}
             tiltGroupRef={tiltGroupRef}
-            deviceTilt={deviceTilt}
             idleSway={idleSway}
             reduced={reduced}
             topInset={topInset}

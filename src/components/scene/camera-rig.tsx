@@ -7,16 +7,13 @@ import { site, type CameraKeyframe, type SceneObject } from "@/src/config/site";
 import { useSceneStateRef } from "./scene-state";
 
 export type ProgressSource = { get(): number };
-export type TiltSource = RefObject<{ x: number; y: number }>;
 
 type CameraRigProps = {
   /** Scroll progress through the hero, 0..1 (a framer-motion MotionValue fits). */
   progress: ProgressSource;
   /** The group holding the desk; it is rotated for the tilt. */
   tiltGroupRef: RefObject<Group | null>;
-  /** Phone tilt, if live. */
-  deviceTilt: TiltSource | null;
-  /** Sway gently when there is no mouse or gyro input. */
+  /** Sway gently when there is no mouse (phones). */
   idleSway: boolean;
   reduced: boolean;
   /** Pixels covered by fixed UI at the top (the nav); the final screen shot frames below it. */
@@ -111,10 +108,10 @@ const easeInOut = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t 
 
 /**
  * Moves the camera along the configured path as the hero scrolls, framing
- * the monitor at the end, and tilts the desk toward the pointer (or phone).
+ * the monitor at the end, and tilts the desk toward the pointer.
  * With reduced motion it cuts between the first and last shots and never tilts.
  */
-export function CameraRig({ progress, tiltGroupRef, deviceTilt, idleSway, reduced, topInset }: CameraRigProps) {
+export function CameraRig({ progress, tiltGroupRef, idleSway, reduced, topInset }: CameraRigProps) {
   const camera = useThree((s) => s.camera) as PerspectiveCamera;
   const size = useThree((s) => s.size);
   const aspect = size.width / size.height;
@@ -197,8 +194,7 @@ export function CameraRig({ progress, tiltGroupRef, deviceTilt, idleSway, reduce
     if (!tiltGroupRef.current || reduced) return;
     let x = 0;
     let y = 0;
-    if (deviceTilt?.current) ({ x, y } = deviceTilt.current);
-    else if (pointer.current.active) ({ x, y } = pointer.current);
+    if (pointer.current.active) ({ x, y } = pointer.current);
     else if (idleSway) {
       x = Math.sin(state.clock.elapsedTime * 0.35) * 0.6;
       y = Math.sin(state.clock.elapsedTime * 0.27) * 0.3;

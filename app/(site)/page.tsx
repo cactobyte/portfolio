@@ -19,8 +19,8 @@ export default function Home() {
           :)
         </p>
 
-        {/* Fits its buttons, so the nudge can point at the last one; room below for it on phones. */}
-        <div className="relative mt-8 mb-36 w-fit lg:mb-0">
+        {/* Fits its buttons, so the nudge can point at the last one; room below for it on tablets. */}
+        <div className="relative mt-8 w-fit sm:mb-36 lg:mb-0">
           <div className="flex flex-col items-start gap-3 sm:flex-row">
             <a
               href="/docs/boris-cheung-cv.pdf"

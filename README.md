@@ -14,8 +14,7 @@ npm run poster   # re-render the hero posters in src/assets/ (needs the site run
 ## How the home page works
 
 1. **Wide shot.** The home hero is a tall scroll section with the 3D desk pinned
-   in view. The desk leans toward the cursor (up to 6°). On phones it follows
-   device tilt once permitted, and otherwise sways slowly.
+   in view. The desk leans toward the cursor (up to 6°). On phones it sways slowly.
 2. **Fly-in.** Scrolling moves the camera along the keyframed path into the
    monitor. Scroll progress comes from framer-motion's `useScroll`.
 3. **Screen.** On the monitor, the project list is real HTML (drei `<Html transform occlude>`):
@@ -36,10 +35,10 @@ src/
       scene.tsx             <Canvas>, lighting, objects, post-processing
       desk-object.tsx       one object: GLB or stand-in, outline, interactions
       stand-ins.tsx         primitive clay models for each object id
-      camera-rig.tsx        scroll camera path, screen framing, cursor/gyro tilt
+      camera-rig.tsx        scroll camera path, screen framing, cursor tilt
       monitor-screen.tsx    the HTML project list on the monitor
       lighting.tsx          clay daylight ↔ night blend
-  lib/                      media queries, device tilt
+  lib/                      media queries
 app/                        routes; (site)/ pages share site-shell.tsx, volume/ is standalone
 ```
 
@@ -149,9 +148,8 @@ These were made instead of asking. Change any that are wrong.
   `mailto:` does nothing when the visitor has no mail app set up.
 - **Effects:** the hover outline and ambient occlusion use
   `@react-three/postprocessing` on desktop only.
-- **Phone tilt:** where the browser requires permission (iOS), a "Tilt the
-  desk with your phone" button asks for it. Otherwise orientation is used
-  directly, and the scene sways slowly if no orientation data arrives.
+- **Phones:** no device-tilt control (iOS permission made it unreliable); the
+  desk sways slowly instead.
 - **Posters:** `src/assets/desk-poster-{landscape,portrait}.jpg` are renders
   of the clay scene at rest (1750×1000, the camera's composed landscape aspect,
   and 390×844 on the phone render path).
