@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <rect width="800" height="600" fill="#F6E6D2"/>
+  <ellipse cx="380" cy="530" rx="210" ry="22" fill="#E6D2BA"/>
+  <!-- Arm: two segments with a joint -->
+  <path d="M170 560 L 250 470" stroke="#B8442F" stroke-width="70" stroke-linecap="round"/>
+  <circle cx="262" cy="455" r="52" fill="#C64D35"/>
+  <!-- Claw: a round palm with a deep notch, leaving two pincers that curve toward each other -->
+  <path d="M395 318 Q 470 250 556 150 Q 520 120 470 140 A 175 175 0 1 0 610 340 Q 560 300 395 318 Z"
+        fill="#DA583D" stroke="#DA583D" stroke-width="14" stroke-linejoin="round"/>
+  <!-- Shade on the lower pincer -->
+  <path d="M610 340 Q 560 300 395 318 Q 380 400 300 470 A 175 175 0 0 0 610 340 Z" fill="#C64D35"
+        stroke="#C64D35" stroke-width="14" stroke-linejoin="round"/>
+  <!-- Teeth on the inner edges -->
+  <g fill="#F6E6D2">
+    <path d="M452 270 l-4 -24 l20 8 z"/>
+    <path d="M500 224 l-4 -24 l20 8 z"/>
+    <path d="M470 316 l6 22 l14 -18 z"/>
+    <path d="M530 316 l6 22 l14 -18 z"/>
+  </g>
+  <!-- Highlight -->
+  <path d="M280 300 A 150 150 0 0 1 380 196" fill="none" stroke="#F09178" stroke-width="18" stroke-linecap="round"/>
+</svg>

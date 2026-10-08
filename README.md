@@ -73,10 +73,12 @@ flies to the monitor). A wiggle model bends from a node named `sway` if it has o
 
 ## Projects
 
-`site.projects` feeds the /projects card grid and the 3D monitor. To give a card a
-picture, put a screenshot in `public/projects/` (16:10 works best; it is cropped from
-the top) and add `image: { src: "/projects/my-site.jpg", alt: "…" }`. Cards without
-one show the project name as a type tile.
+`site.projects` feeds the /projects page (a loose masonry of cards) and the 3D
+monitor. To give a card a picture, put it in `src/assets/projects/`, import it at
+the top of `site.ts` and add `image: { src, alt }`. It shows at its own shape. Add
+`fit: "contain"` for a logo, which centres it on a tinted tile. Cards without a
+picture are text only, on a tint. The order in the config is the reading order,
+filling each column from top to bottom.
 
 ## Theme
 
@@ -142,8 +144,9 @@ These were made instead of asking. Change any that are wrong.
   sit over the 3D hero. After the fly-in come the intro line and the CV and
   projects buttons.
 - **Contact:** "Contact me" (nav on desktop, footer link on mobile) jumps to
-  `/#contact`, the top of the hero where the social links are. There is no
-  email link: `mailto:` only works when the visitor has a mail app set up.
+  `/#contact`, the top of the hero, where the social icons and an email button
+  are. The email button is a `mailto:` link that also copies the address, since
+  `mailto:` does nothing when the visitor has no mail app set up.
 - **Effects:** the hover outline and ambient occlusion use
   `@react-three/postprocessing` on desktop only.
 - **Phone tilt:** where the browser requires permission (iOS), a "Tilt the

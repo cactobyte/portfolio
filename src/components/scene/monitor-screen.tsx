@@ -176,7 +176,7 @@ function ScreenContent({ ref, width, height, zoom, compact, onFocus, onBlur }: S
       onBlur={onBlur}
       aria-label="Projects"
       style={{ width, height, zoom }}
-      className={`flex flex-col overflow-hidden bg-screen-surface font-sans text-ink ${compact ? "px-5 pt-3 pb-2" : "px-8 pt-6 pb-5"}`}
+      className={`flex flex-col overflow-hidden bg-screen-surface font-sans text-ink ${compact ? "px-5 pt-3 pb-2" : "px-8 pt-5 pb-4"}`}
     >
       <div className="flex items-baseline justify-between pb-2">
         <h2 className={`font-display font-semibold tracking-tight ${compact ? "text-[19px]" : "text-[28px]"}`}>
@@ -193,7 +193,7 @@ function ScreenContent({ ref, width, height, zoom, compact, onFocus, onBlur }: S
         {site.projects.map((project) => (
           <li
             key={project.name}
-            className={`flex items-baseline border-t border-line ${compact ? "gap-3 pt-1" : "gap-6 pt-2.5"}`}
+            className={`flex items-baseline border-t border-line ${compact ? "gap-3 pt-1" : "gap-6 pt-1.5"}`}
           >
             <div className="min-w-0 flex-1">
               <p
@@ -211,7 +211,7 @@ function ScreenContent({ ref, width, height, zoom, compact, onFocus, onBlur }: S
                   project.name
                 )}
               </p>
-              {!compact && <p className="truncate text-[14px] text-muted">{project.description}</p>}
+              {!compact && <p className="truncate text-[13px] leading-snug text-muted">{project.description}</p>}
             </div>
             <ProjectStatus project={project} className={compact ? "text-[12px]" : "text-[13px]"} />
           </li>

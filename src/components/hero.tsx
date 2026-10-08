@@ -45,6 +45,20 @@ export function Hero() {
   const [ready, setReady] = useState(false);
   const [onScreen, setOnScreen] = useState(true);
   const [navHeight, setNavHeight] = useState(0);
+  const [copiedEmail, setCopiedEmail] = useState<string | null>(null);
+  const copiedTimer = useRef(0);
+
+  // The mailto link still opens the mail app; copying covers devices that have none set up.
+  const copyEmail = (email: string) => {
+    navigator.clipboard
+      ?.writeText(email)
+      .then(() => {
+        setCopiedEmail(email);
+        window.clearTimeout(copiedTimer.current);
+        copiedTimer.current = window.setTimeout(() => setCopiedEmail(null), 3000);
+      })
+      .catch(() => {});
+  };
 
   // The poster is a render of this scene, so three.js can wait: load on the first
   // interaction, or once the page has sat idle for a few seconds.
@@ -172,10 +186,11 @@ export function Hero() {
                 <li key={name} className="rise" style={at(6 + i * 0.5)}>
                   <a
                     href={href}
-                    target="_blank"
-                    rel="noopener"
+                    {...(href.startsWith("mailto:")
+                      ? { onClick: () => copyEmail(href.slice("mailto:".length)) }
+                      : { target: "_blank", rel: "noopener" })}
                     aria-label={name}
-                    title={name}
+                    title={href.startsWith("mailto:") ? href.slice("mailto:".length) : name}
                     className="press icon-pop grid size-11 place-items-center rounded-full border border-line bg-bg/70 backdrop-blur-sm hover:border-ink hover:bg-surface"
                   >
                     <svg viewBox="0 0 24 24" className="size-5 fill-current" aria-hidden="true">
@@ -185,8 +200,14 @@ export function Hero() {
                 </li>
               ))}
             </ul>
+            <p
+              role="status"
+              className={`mt-2 h-5 text-sm text-muted transition-opacity duration-300 ${copiedEmail ? "opacity-100" : "opacity-0"}`}
+            >
+              {copiedEmail && `Copied ${copiedEmail}`}
+            </p>
             {tall && (
-              <p className="rise mt-10 hidden text-sm text-muted md:block" style={at(9)}>
+              <p className="rise mt-8 hidden text-sm text-muted md:block" style={at(9)}>
                 Scroll to see what&apos;s on the screen
               </p>
             )}

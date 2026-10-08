@@ -4,6 +4,11 @@
  * models or themes.
  */
 
+import type { StaticImageData } from "next/image";
+import bennettShot from "@/src/assets/projects/bennett.jpg";
+import fanclubLogo from "@/src/assets/projects/fanclub-logo.png";
+import openclawArt from "@/src/assets/projects/openclaw.svg";
+
 export type Vec3 = [number, number, number];
 
 /* ---------- Theme ---------- */
@@ -105,10 +110,11 @@ export type Project = {
   tags: string[];
   link?: { href: string; label: string; external?: boolean };
   /**
-   * Card thumbnail: a screenshot in public/ (e.g. "/projects/name.jpg", 16:10 works best,
-   * cropped from the top). Without one the card shows the name as a type tile.
+   * Card picture, statically imported from src/assets/projects/ and shown at its own
+   * aspect ratio. `contain` centres it on a tinted tile instead (for logos). Cards
+   * without one are text only, on a tint.
    */
-  image?: { src: string; alt: string };
+  image?: { src: StaticImageData; alt: string; fit?: "contain" };
 };
 
 export type Social = {
@@ -185,9 +191,27 @@ export const site = {
       href: "https://leetcode.com/u/cactobyte/",
       icon: "M13.483 0a1.374 1.374 0 0 0-.961.438L7.116 6.226l-3.854 4.126a5.266 5.266 0 0 0-1.209 2.104 5.35 5.35 0 0 0-.125.513 5.527 5.527 0 0 0 .062 2.362 5.83 5.83 0 0 0 .349 1.017 5.938 5.938 0 0 0 1.271 1.818l4.277 4.193.039.038c2.248 2.165 5.852 2.133 8.063-.074l2.396-2.392c.54-.54.54-1.414.003-1.955a1.378 1.378 0 0 0-1.951-.003l-2.396 2.392a3.021 3.021 0 0 1-4.205.038l-.02-.019-4.276-4.193c-.652-.64-.972-1.469-.948-2.263a2.68 2.68 0 0 1 .066-.523 2.545 2.545 0 0 1 .619-1.164L9.13 8.114c1.058-1.134 3.204-1.27 4.43-.278l3.501 2.831c.593.48 1.461.387 1.94-.207a1.384 1.384 0 0 0-.207-1.943l-3.5-2.831c-.8-.647-1.766-1.045-2.774-1.202l2.015-2.158A1.384 1.384 0 0 0 13.483 0zm-2.866 12.815a1.38 1.38 0 0 0-1.38 1.382 1.38 1.38 0 0 0 1.38 1.382H20.79a1.38 1.38 0 0 0 1.38-1.382 1.38 1.38 0 0 0-1.38-1.382z",
     },
+    {
+      // Opens the visitor's mail app; the hero also copies the address, for when no mail app is set up.
+      name: "Email",
+      href: "mailto:borisbcheung@gmail.com",
+      icon: "M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z",
+    },
   ] satisfies Social[] as Social[],
 
   projects: [
+    {
+      name: "Bennett",
+      status: "almost done",
+      live: true,
+      description: "A website for musician Bennett, featuring an interactive 3D stage you can rotate.",
+      tags: ["Next.js", "React Three Fiber", "Framer Motion", "Tailwind CSS"],
+      link: { href: "https://bennett-music.vercel.app/", label: "Visit site", external: true },
+      image: {
+        src: bennettShot,
+        alt: "Bennett's site: a halftone 3D stage with a keyboard, mic stand, red guitar and coat stand",
+      },
+    },
     {
       name: "AI Bookings Manager",
       status: "in progress",
@@ -203,6 +227,13 @@ export const site = {
       link: { href: "https://github.com/cactobyte/one-inbox", label: "View project", external: true },
     },
     {
+      name: "OpenClaw - Orbis",
+      status: "deprecated",
+      description: "My own personal open-claw bot, run on a Mac mini. Currently deprecated.",
+      tags: ["Personal"],
+      image: { src: openclawArt, alt: "Illustration of a red lobster claw" },
+    },
+    {
       name: "LLM-Driven RPG Game",
       status: "dissertation — first",
       description:
@@ -216,12 +247,7 @@ export const site = {
       description: "MVP web app for a friend's startup, built and used to pitch investors.",
       tags: ["React", "Freelance"],
       link: { href: "https://github.com/cactobyte/fanclub", label: "View project", external: true },
-    },
-    {
-      name: "OpenClaw - Orbis",
-      status: "deprecated",
-      description: "My own personal open-claw bot, run on a Mac mini. Currently deprecated.",
-      tags: ["Personal"],
+      image: { src: fanclubLogo, alt: "FanClub logo", fit: "contain" },
     },
   ] satisfies Project[] as Project[],
 };
