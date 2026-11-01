@@ -5,9 +5,11 @@ import { ArrowIcon } from "@/app/icon-arrow";
 import { site, type Project } from "@/src/config/site";
 import { ProjectStatus } from "./project-status";
 
-/** Tints for logo tiles and text-only cards; they cycle so neighbours differ. */
+/** Tints for logo tiles and text-only cards, cycled across just those cards so no two match. */
 const TINTS = ["--accent", "--warm", "--lamp", "--screen"];
-const tint = (i: number) => `color-mix(in oklab, var(${TINTS[i % TINTS.length]}) 34%, var(--bg))`;
+const tinted = site.projects.filter((project) => !project.image || project.image.fit === "contain");
+const tint = (project: Project) =>
+  `color-mix(in oklab, var(${TINTS[tinted.indexOf(project) % TINTS.length]}) 34%, var(--bg))`;
 
 /**
  * Every project as a card in a loose masonry: pictures at their own shapes,
@@ -29,10 +31,10 @@ export function ProjectList() {
         return (
           <li
             key={project.name}
-            style={{ "--i": i + 1, background: image ? undefined : tint(i) } as CSSProperties}
+            style={{ "--i": i + 1, background: image ? undefined : tint(project) } as CSSProperties}
             className="rise card-lift group relative mb-5 flex break-inside-avoid flex-col overflow-hidden rounded-2xl bg-surface"
           >
-            {image && <Picture project={project} background={tint(i)} />}
+            {image && <Picture project={project} background={tint(project)} />}
             <div className="flex flex-col gap-3 p-5">
               <div className="flex items-baseline justify-between gap-3">
                 <h2

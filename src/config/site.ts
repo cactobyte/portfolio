@@ -201,23 +201,22 @@ export const site = {
 
   projects: [
     {
-      name: "Bennett",
-      status: "almost done",
-      live: true,
-      description: "A website for musician Bennett, featuring an interactive 3D stage you can rotate.",
-      tags: ["Next.js", "React Three Fiber", "Framer Motion", "Tailwind CSS"],
-      link: { href: "https://bennett-music.vercel.app/", label: "Visit site", external: true },
-      image: {
-        src: bennettShot,
-        alt: "Bennett's site: a halftone 3D stage with a keyboard, mic stand, red guitar and coat stand",
-      },
-    },
-    {
       name: "AI Bookings Manager",
       status: "in progress",
       live: true,
       description: "Commissioned AI manager that handles bookings for tattoo artists and other creatives.",
       tags: ["TypeScript", "Next.js", "Postgres (Neon) via Drizzle", "Vitest"],
+    },
+    {
+      name: "Bennett",
+      status: "done",
+      description: "A website for musician Bennett, featuring an interactive 3D stage you can rotate.",
+      tags: ["Next.js", "React Three Fiber", "Framer Motion", "Tailwind CSS"],
+      link: { href: "https://www.bennettmusic.net/", label: "Visit site", external: true },
+      image: {
+        src: bennettShot,
+        alt: "Bennett's site: a halftone 3D stage with a keyboard, mic stand, red guitar and coat stand",
+      },
     },
     {
       name: "OneInbox",
