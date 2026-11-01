@@ -209,7 +209,7 @@ export const site = {
     },
     {
       name: "Bennett",
-      status: "done",
+      status: "shipped",
       description: "A website for musician Bennett, featuring an interactive 3D stage you can rotate.",
       tags: ["Next.js", "React Three Fiber", "Framer Motion", "Tailwind CSS"],
       link: { href: "https://www.bennettmusic.net/", label: "Visit site", external: true },
