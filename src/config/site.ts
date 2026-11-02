@@ -236,7 +236,7 @@ export const site = {
       name: "LLM-Driven RPG Game",
       status: "dissertation — first",
       description:
-        "Unity RPG where NPCs are powered by an LLM: they remember past conversations and generate dynamic quests instead of following a fixed list.",
+        "Unity RPG where you talk to LLM-driven characters in plain English, and what you say becomes real quests, enemies and rewards.",
       tags: ["Unity", "C#", "Gemini API"],
       link: { href: "/projects/dissertation", label: "Read more" },
     },
