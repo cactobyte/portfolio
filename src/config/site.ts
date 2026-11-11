@@ -209,6 +209,14 @@ export const site = {
       tags: ["TypeScript", "Next.js", "Postgres (Neon) via Drizzle", "Vitest"],
     },
     {
+      name: "LLM-Driven RPG Game",
+      status: "dissertation — first",
+      description:
+        "Unity RPG where you talk to LLM-driven characters in plain English, and what you say becomes real quests, enemies and rewards.",
+      tags: ["Unity", "C#", "Gemini API"],
+      link: { href: "/projects/dissertation", label: "Read more" },
+    },
+    {
       name: "Bennett",
       status: "shipped",
       description: "A website for musician Bennett, featuring an interactive 3D stage you can rotate.",
@@ -220,6 +228,14 @@ export const site = {
       },
     },
     {
+      name: "FanClub",
+      status: "shipped",
+      description: "MVP web app for a friend's startup, built and used to pitch investors.",
+      tags: ["React"],
+      link: { href: "https://github.com/cactobyte/fanclub", label: "View project", external: true },
+      image: { src: fanclubLogo, alt: "FanClub logo", fit: "contain" },
+    },
+    {
       name: "OneInbox",
       status: "shipped",
       description: "Omnichannel customer messaging platform for SMEs.",
@@ -227,39 +243,23 @@ export const site = {
       link: { href: "https://github.com/cactobyte/one-inbox", label: "View project", external: true },
     },
     {
-      name: "OpenClaw - Orbis",
-      status: "deprecated",
-      description: "My own personal open-claw bot, run on a Mac mini. Currently deprecated.",
-      tags: ["Personal"],
-      image: { src: openclawArt, alt: "Illustration of a red lobster claw" },
-    },
-    {
-      name: "LLM-Driven RPG Game",
-      status: "dissertation — first",
-      description:
-        "Unity RPG where you talk to LLM-driven characters in plain English, and what you say becomes real quests, enemies and rewards.",
-      tags: ["Unity", "C#", "Gemini API"],
-      link: { href: "/projects/dissertation", label: "Read more" },
-    },
-    {
-      name: "FanClub",
-      status: "shipped",
-      description: "MVP web app for a friend's startup, built and used to pitch investors.",
-      tags: ["React", "Freelance"],
-      link: { href: "https://github.com/cactobyte/fanclub", label: "View project", external: true },
-      image: { src: fanclubLogo, alt: "FanClub logo", fit: "contain" },
-    },
-    {
       name: "In-Depth-Therapy",
       status: "shipped",
       description:
         "Website for a psychotherapist, built around her own touch drawings, in ink greens with an editorial serif.",
-      tags: ["HTML", "CSS", "JavaScript", "Freelance"],
+      tags: ["HTML", "CSS", "JavaScript"],
       link: { href: "https://in-depth-therapy.com/", label: "Visit site", external: true },
       image: {
         src: inDepthArt,
         alt: "Touch drawing in dark green: a small figure walking between two tall, textured walls",
       },
+    },
+    {
+      name: "OpenClaw - Orbis",
+      status: "deprecated",
+      description: "My own personal open-claw bot, run on a Mac mini. Currently deprecated.",
+      tags: ["Personal"],
+      image: { src: openclawArt, alt: "Illustration of a red lobster claw" },
     },
   ] satisfies Project[] as Project[],
 };
