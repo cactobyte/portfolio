@@ -236,13 +236,6 @@ export const site = {
       image: { src: fanclubLogo, alt: "FanClub logo", fit: "contain" },
     },
     {
-      name: "OneInbox",
-      status: "shipped",
-      description: "Omnichannel customer messaging platform for SMEs.",
-      tags: ["Full-stack"],
-      link: { href: "https://github.com/cactobyte/one-inbox", label: "View project", external: true },
-    },
-    {
       name: "In-Depth-Therapy",
       status: "shipped",
       description:
@@ -253,6 +246,13 @@ export const site = {
         src: inDepthArt,
         alt: "Touch drawing in dark green: a small figure walking between two tall, textured walls",
       },
+    },
+    {
+      name: "OneInbox",
+      status: "shipped",
+      description: "Omnichannel customer messaging platform for SMEs.",
+      tags: ["Full-stack"],
+      link: { href: "https://github.com/cactobyte/one-inbox", label: "View project", external: true },
     },
     {
       name: "OpenClaw - Orbis",
