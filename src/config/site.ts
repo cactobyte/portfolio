@@ -7,6 +7,7 @@
 import type { StaticImageData } from "next/image";
 import bennettShot from "@/src/assets/projects/bennett.jpg";
 import fanclubLogo from "@/src/assets/projects/fanclub-logo.png";
+import inDepthArt from "@/src/assets/projects/in-depth-therapy.jpg";
 import openclawArt from "@/src/assets/projects/openclaw.svg";
 
 export type Vec3 = [number, number, number];
@@ -247,6 +248,18 @@ export const site = {
       tags: ["React", "Freelance"],
       link: { href: "https://github.com/cactobyte/fanclub", label: "View project", external: true },
       image: { src: fanclubLogo, alt: "FanClub logo", fit: "contain" },
+    },
+    {
+      name: "In-Depth-Therapy",
+      status: "shipped",
+      description:
+        "Website for a psychotherapist, built around her own touch drawings, in ink greens with an editorial serif.",
+      tags: ["HTML", "CSS", "JavaScript", "Freelance"],
+      link: { href: "https://in-depth-therapy.com/", label: "Visit site", external: true },
+      image: {
+        src: inDepthArt,
+        alt: "Touch drawing in dark green: a small figure walking between two tall, textured walls",
+      },
     },
   ] satisfies Project[] as Project[],
 };
