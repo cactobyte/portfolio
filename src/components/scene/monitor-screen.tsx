@@ -190,7 +190,7 @@ function ScreenContent({ ref, width, height, zoom, compact, onFocus, onBlur }: S
         </a>
       </div>
       <ul className="flex flex-1 flex-col justify-between">
-        {site.projects.map((project) => (
+        {site.projects.filter((project) => !project.offScreen).map((project) => (
           <li
             key={project.name}
             className={`flex items-baseline border-t border-line ${compact ? "gap-3 pt-1" : "gap-6 pt-1.5"}`}

@@ -107,6 +107,8 @@ export type Project = {
   status: string;
   /** Pulsing dot for work in progress. */
   live?: boolean;
+  /** Left off the 3D monitor, which fits six; it stays on the projects page. */
+  offScreen?: boolean;
   description: string;
   tags: string[];
   link?: { href: string; label: string; external?: boolean };
@@ -257,6 +259,7 @@ export const site = {
     {
       name: "OpenClaw - Orbis",
       status: "deprecated",
+      offScreen: true,
       description: "My own personal open-claw bot, run on a Mac mini. Currently deprecated.",
       tags: ["Personal"],
       image: { src: openclawArt, alt: "Illustration of a red lobster claw" },
